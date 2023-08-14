@@ -1,5 +1,6 @@
-#CHECK IF MODULES EXISTS
+$MaximumFunctionCount = 32768
 
+#CHECK IF MODULES EXISTS
 $Modules = @('ExchangeOnlineManagement',`
 			 'MCCAPreview')
 
@@ -21,7 +22,6 @@ foreach($m in $Modules)	{
 		}
 	}
 }
-#>
 
 #CHECK IF PATH EXIST / DOWNLOAD GITHUB REPOSITORY
 $Path = 'C:\TEMP\BPA\MCCA'

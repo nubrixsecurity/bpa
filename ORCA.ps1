@@ -1,3 +1,5 @@
+$MaximumFunctionCount = 32768
+
 #CHECK IF MODULES EXISTS
 $Modules = @('ExchangeOnlineManagement',`
 			 'ORCA')
