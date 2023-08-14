@@ -1,5 +1,5 @@
-<#$MaximumFunctionCount = 32768
-
+$MaximumFunctionCount = 32768
+<#
 #START BPA - CHECK IF MODULES EXISTS
 $Modules = @('ExchangeOnlineManagement',`
 			 'Microsoft.Online.SharePoint.PowerShell',`
