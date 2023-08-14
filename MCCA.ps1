@@ -1,8 +1,7 @@
 $MaximumFunctionCount = 32768
 
 #CHECK IF MODULES EXISTS
-$Modules = @('ExchangeOnlineManagement',`
-			 'MCCAPreview')
+$Modules = @('ExchangeOnlineManagement','MCCAPreview')
 
 # If module is imported say that and do nothing
 foreach($m in $Modules)	{
