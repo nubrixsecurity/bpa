@@ -46,17 +46,21 @@ $isconnected = (@($getsessions) -like '@{State=Connected; Name=ExchangeOnline*')
 
 If ($isconnected -ne "True") {
 	Try {
-		Write-Host "Connecting to ExchangeOnline" -Foreground green
+		Write-Host "Connecting to ExchangeOnline." -Foreground CYAN
 		Connect-ExchangeOnline -UserPrincipalName $UserPrincipalName -ShowBanner:$false
+		
+		If ($isconnected -eq "True") {
+			Write-Host "ExchangeOnline Connected." -Foreground CYAN
+		}
 	}
 	Catch {
-		Write-Host "Connecting to ExchangeOnline Failed." -Foreground green
+		Write-Host "Connecting to ExchangeOnline Failed." -Foreground RED
 		Write-Error $_.Exception.Message
 		Break
 	}
 }
 else{
-	Write-Host "ExchangeOnline Connected." -Foreground green
+	Write-Host "ExchangeOnline Connected." -Foreground CYAN
 }
 
 #DOWNLOAD GITHUB REPOSITORY

@@ -1,4 +1,4 @@
-$MaximumFunctionCount = 32768
+#RUN SCRIPT ON POWERSHELL 7.3.6
 
 #CHECK IF MODULES EXISTS
 $Modules = @('Az',`
@@ -6,7 +6,6 @@ $Modules = @('Az',`
 			 'ExchangeOnlineManagement',`
 			 'Microsoft.Online.SharePoint.PowerShell',`
 			 'Microsoft.Graph',`
-			 'Microsoft.Graph.Beta',`
 			 'MicrosoftTeams',`
 			 'PoShLog',`
 			 'posh-git')
@@ -32,7 +31,7 @@ foreach($m in $Modules){
 				}
 				catch{
 					write-host "Installing module: $m" -Foreground CYAN
-					Install-Module -Name $m-Scope CurrentUser -AllowClobber -Force
+					Install-Module -Name $m -Scope CurrentUser -AllowClobber -Force
 					Import-Module -Name $m
 				}				 			 
 			}
@@ -47,15 +46,11 @@ foreach($m in $Modules){
 
 #CHECK IF PATH EXIST / DOWNLOAD GITHUB REPOSITORY
 $Path = 'C:\TEMP\BPA\M365SAT'
-if (Test-Path -Path $Path) {
-	Remove-Item $Path -Recurse -Force
-	New-Item $Path -Type Directory
-	git clone https://github.com/asterictnl-lvdw/M365SAT $Path
-	cd $Path 
-	.\M365SATTester.ps1		
-} else {
-    New-Item $Path -Type Directory
-    git clone https://github.com/asterictnl-lvdw/M365SAT $Path
-	cd $Path 
-	.\M365SATTester.ps1
-}
+
+Remove-Item $Path -Recurse -Force
+New-Item $Path -Type Directory
+git clone https://github.com/asterictnl-lvdw/M365SAT $Path
+cd $Path 
+#.\M365SATTester.ps1
+Import-Module .\M365SAT.psd1
+cd C:\TEMP\BPA\M365SAT; Get-ChildItem -Path .\ -Recurse | Unblock-File	

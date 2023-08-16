@@ -3,6 +3,7 @@ $MaximumFunctionCount = 32768
 $Path = 'C:\TEMP\BPA\M365Inspect'
 $OutPath = 'C:\TEMP\BPA\M365Inspect\Output'
 $Username = 'victor@nubrixsecurity.com'
+
 if (Test-Path -Path $Path) {
 	Remove-Item $Path -Recurse -Force
 	New-Item $Path -Type Directory
