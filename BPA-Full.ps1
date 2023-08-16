@@ -15,46 +15,6 @@ else {
 
 #DEFINE VARIABLES
 $UserPrincipalName = Read-Host -Prompt 'Input User Name'
-<#
-#START BPA - CHECK IF MODULES EXISTS
-$Modules = @('PowerShellGet', 'ExchangeOnlineManagement', 'MCCAPreview', 'ORCA')
-
-$MaximumFunctionCount = 32768
-
-foreach($m in $Modules)	{
-	if (Get-Module | Where-Object {$_.Name -eq $m}) {
-		write-host "Module already imported: $m" -Foreground green
-	}
-	else {
-		if (Get-Module -ListAvailable | Where-Object {$_.Name -eq $m}) {
-			if($m -eq 'PowerShellGet'){
-				try{
-					write-host "Importing module: $m" -Foreground green
-					Import-Module -Name $m
-					Update-Module -Name $m -Force
-				}
-				catch{
-					write-host "Installing module: $m" -Foreground green
-					Install-Module -Name $m -Scope CurrentUser -AllowClobber -Force
-					Import-Module -Name $m
-					Update-Module -Name $m -Force
-				}				 			 
-			}
-			else
-			{
-				write-host "Importing module: $m" -Foreground green
-				Import-Module $m
-			}
-			
-		}
-		else {
-			write-host "Installing module: $m" -Foreground green
-			Install-Module -Name $m -Scope CurrentUser -AllowClobber -Force
-			Import-Module -Name $m 
-		}
-	}
-}
-#>
 
 #CHECK IF MODULES EXISTS
 $Modules = @('Az',`
@@ -118,23 +78,23 @@ If ($isconnected -ne "True") {
 	}
 }
 else{
-	Write-Host "ExchangeOnline Connected." -Foreground green
+	Write-Host 'ExchangeOnline Connected' -Foreground green
 }
 	
 #MCCA ASSESSMENT
-Write-Host "RUNNING MCCA ASSESSMENT." -Foreground CYAN
+Write-Host 'RUNNING MCCA ASSESSMENT' -Foreground CYAN
 Get-MCCAReport
 cd 'C:\Users\*\AppData\Local\Microsoft\MCCA\'
 ii .
 
 #MDO ASSESSMENT
-Write-Host "RUNNING ORCA ASSESSMENT." -Foreground CYAN
+Write-Host 'RUNNING ORCA ASSESSMENT' -Foreground CYAN
 Get-ORCAReport	
 cd 'C:\Users\*\AppData\Local\Microsoft\ORCA\'
 ii .
 
 #M365INSPECT ASSESSMENT
-Write-Host "RUNNING M365INSPECT ASSESSMENT." -Foreground CYAN
+Write-Host 'RUNNING M365INSPECT ASSESSMENT' -Foreground CYAN
 $Path = 'C:\TEMP\BPA\M365Inspect'
 $OutPath = 'C:\TEMP\BPA\M365Inspect\Output'
 
@@ -153,7 +113,7 @@ else {
 }
 
 #M365SAT ASSESSMENT
-Write-Host "RUNNING M365SAT ASSESSMENT." -Foreground CYAN
+Write-Host 'RUNNING M365SAT ASSESSMENT' -Foreground CYAN
 $Path = 'C:\TEMP\BPA\M365SAT'
 
 if (Test-Path -Path $Path) {
