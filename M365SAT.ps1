@@ -1,5 +1,4 @@
-#SET PERMISSIONS TO RUNNING SCRIPT
-#Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Confirm
+$MaximumFunctionCount = 32768
 
 #CHECK IF MODULES EXISTS
 $Modules = @('Az',`
@@ -26,9 +25,16 @@ foreach($m in $Modules){
 			Import-Module $m
 		}
 		else {
-			if(Get-Module | Where-Object {$_.Name -like 'Az*'}){
-				write-host "Importing module: $m"
-				Import-Module Az
+			if($m -eq 'Az'){
+				try{
+					write-host "Importing module: $m" -Foreground CYAN
+					Import-Module -Name $m
+				}
+				catch{
+					write-host "Installing module: $m" -Foreground CYAN
+					Install-Module -Name $m-Scope CurrentUser -AllowClobber -Force
+					Import-Module -Name $m
+				}				 			 
 			}
 			else{
 				write-host "Installing module: $m" -Foreground CYAN
@@ -40,17 +46,13 @@ foreach($m in $Modules){
 }
 
 #CHECK IF PATH EXIST / DOWNLOAD GITHUB REPOSITORY
-$Path = 'C:\TEMP\M365SAT\'
+$Path = 'C:\TEMP\BPA\M365SAT'
 if (Test-Path -Path $Path) {
-	if( (Get-ChildItem $Path | Measure-Object).Count -eq 0){
-		git clone https://github.com/asterictnl-lvdw/M365SAT $Path
-		cd $Path 
-		.\M365SATTester.ps1		
-	}
-	else {
-		cd $Path 
-		.\M365SATTester.ps1
-	}
+	Remove-Item $Path -Recurse -Force
+	New-Item $Path -Type Directory
+	git clone https://github.com/asterictnl-lvdw/M365SAT $Path
+	cd $Path 
+	.\M365SATTester.ps1		
 } else {
     New-Item $Path -Type Directory
     git clone https://github.com/asterictnl-lvdw/M365SAT $Path
