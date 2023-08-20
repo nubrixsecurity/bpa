@@ -16,7 +16,7 @@ else {
 #DEFINE VARIABLES
 $UserPrincipalName = Read-Host -Prompt 'Input User Name'
 
-#CHECK IF MODULES EXISTS
+<#CHECK IF MODULES EXISTS
 $Modules = @('Az',`
 			 'PowerShellGet',`
 			 'ExchangeOnlineManagement',`
@@ -89,9 +89,31 @@ ii .
 
 #MDO ASSESSMENT
 Write-Host 'RUNNING ORCA ASSESSMENT' -Foreground CYAN
-Get-ORCAReport	
+#Get-ORCAReport	
 cd 'C:\Users\*\AppData\Local\Microsoft\ORCA\'
 ii .
+#>
+
+#M365SAT ASSESSMENT
+Write-Host 'RUNNING M365SAT ASSESSMENT' -Foreground CYAN
+$Path = 'C:\TEMP\BPA\M365SAT'
+$OutPath = 'C:\TEMP\BPA\M365SAT\Output'
+
+if (Test-Path -Path $Path) {
+	Remove-Item $Path -Recurse -Force
+	New-Item $Path -Type Directory
+	git clone https://github.com/asterictnl-lvdw/M365SAT $Path
+	Copy-Item 'C:\TEMP\BPA\M365SATTester.ps1' -Destination $Path
+	cd $Path 
+	.\M365SATTester.ps1 $OutPath $UserPrincipalName
+}
+else {
+	New-Item $Path -Type Directory
+	git clone https://github.com/asterictnl-lvdw/M365SAT $Path
+	Copy-Item 'C:\TEMP\BPA\M365SATTester.ps1' -Destination $Path
+	cd $Path 
+	.\M365SATTester.ps1 $OutPath $UserPrincipalName
+}
 
 #M365INSPECT ASSESSMENT
 Write-Host 'RUNNING M365INSPECT ASSESSMENT' -Foreground CYAN
@@ -110,24 +132,4 @@ else {
 	git clone https://github.com/soteria-security/365Inspect $Path
 	cd $Path
 	.\365Inspect.ps1 -OutPath $OutPath -UserPrincipalName $UserPrincipalName -Auth MFA
-}
-
-#M365SAT ASSESSMENT
-Write-Host 'RUNNING M365SAT ASSESSMENT' -Foreground CYAN
-$Path = 'C:\TEMP\BPA\M365SAT'
-
-if (Test-Path -Path $Path) {
-	Remove-Item $Path -Recurse -Force
-	New-Item $Path -Type Directory
-	git clone https://github.com/asterictnl-lvdw/M365SAT $Path
-	Copy-Item 'C:\TEMP\BPA\M365SATTester.ps1' -Destination $Path
-	cd $Path 
-	.\M365SATTester.ps1 $UserPrincipalName
-}
-else {
-	New-Item $Path -Type Directory
-	git clone https://github.com/asterictnl-lvdw/M365SAT $Path
-	Copy-Item 'C:\TEMP\BPA\M365SATTester.ps1' -Destination $Path
-	cd $Path 
-	.\M365SATTester.ps1 $UserPrincipalName
 }
