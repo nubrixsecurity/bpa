@@ -1,4 +1,4 @@
-param ($UserPrincipalName, $OutPath)
+param ($OutPath, $UserPrincipalName)
 
 function ExecuteM365SAT
 {
