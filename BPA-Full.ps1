@@ -16,72 +16,7 @@ else {
 #DEFINE VARIABLES
 $UserPrincipalName = Read-Host -Prompt 'Input User Name'
 
-<#CHECK IF MODULES EXISTS
-$Modules = @('Az',`
-			 'PowerShellGet',`
-			 'ExchangeOnlineManagement',`
-			 'Microsoft.Online.SharePoint.PowerShell',`
-			 'Microsoft.Graph',`
-			 'MicrosoftTeams',`
-			 'MCCAPreview',
-			 'ORCA',
-			 'PoShLog',`
-			 'posh-git')
-
-$MaximumFunctionCount = 32768
-
-foreach($m in $Modules){
-	# If module is imported say that and do nothing
-	if (Get-Module | Where-Object {$_.Name -eq $m}) {
-		write-host "Module already imported: $m" -Foreground green
-	}
-	else {
-		# If module is not imported, but available on disk then import
-		if (Get-Module -ListAvailable | Where-Object {$_.Name -eq $m}) {
-			write-host "Importing module: $m" -Foreground green
-			Import-Module $m
-		}
-		else {
-			if($m -eq 'Az'){
-				try{
-					write-host "Importing module: $m" -Foreground green
-					Import-Module -Name $m
-				}
-				catch{
-					write-host "Installing module: $m" -Foreground green
-					Install-Module -Name $m -Scope CurrentUser -AllowClobber -Force
-					Import-Module -Name $m
-				}				 			 
-			}
-			else{
-				write-host "Installing module: $m" -Foreground green
-				Install-Module -Name $m -Scope CurrentUser -Force -SkipPublisherCheck
-				Import-Module -Name $m 
-			}
-		}
-	}
-}
-
-#CONNECT TO EXCHANGEONLINE
-$getsessions = Get-ConnectionInformation | Select-Object -Property State, Name
-$isconnected = (@($getsessions) -like '@{State=Connected; Name=ExchangeOnline*').Count -gt 0
-
-If ($isconnected -ne "True") {
-	Try {
-		Write-Host "Connecting to ExchangeOnline." -Foreground green
-		Connect-ExchangeOnline -UserPrincipalName $UserPrincipalName -ShowBanner:$false
-	}
-	Catch {
-		Write-Host "Connecting to ExchangeOnline Failed." -Foreground RED
-		Write-Error $_.Exception.Message
-		Break
-	}
-}
-else{
-	Write-Host 'ExchangeOnline Connected' -Foreground green
-}
-	
-#MCCA ASSESSMENT
+<#MCCA ASSESSMENT
 Write-Host 'RUNNING MCCA ASSESSMENT' -Foreground CYAN
 Get-MCCAReport
 cd 'C:\Users\*\AppData\Local\Microsoft\MCCA\'
@@ -124,12 +59,14 @@ if (Test-Path -Path $Path) {
 	Remove-Item $Path -Recurse -Force
 	New-Item $Path -Type Directory
 	git clone https://github.com/soteria-security/365Inspect $Path
+	Copy-Item 'C:\TEMP\BPA\365Inspect.ps1' -Destination $Path
 	cd $Path
 	.\365Inspect.ps1 -OutPath $OutPath -UserPrincipalName $UserPrincipalName -Auth MFA
 }
 else {
 	New-Item $Path -Type Directory
 	git clone https://github.com/soteria-security/365Inspect $Path
+	Copy-Item 'C:\TEMP\BPA\365Inspect.ps1' -Destination $Path
 	cd $Path
 	.\365Inspect.ps1 -OutPath $OutPath -UserPrincipalName $UserPrincipalName -Auth MFA
 }
