@@ -1,9 +1,11 @@
-param ($OutPath, $UserPrincipalName)
+param ($outPath)
+
+$UserPrincipalName = $(Write-Host "Input User Name: " -f yellow -NoNewLine; Read-Host)
 
 function ExecuteM365SAT
 {
 	Import-Module .\M365SAT.psd1
-	Get-M365SATReport -OutPath $OutPath -SkipChecks -Username $UserPrincipalName -reportType "HTML" -AllowLogging "Warning" -UseCustomModules
+	Get-M365SATReport -OutPath $outPath -SkipChecks -Username $UserPrincipalName -reportType "HTML" -AllowLogging "Warning" -UseCustomModules
 	Remove-Module M365SAT
 }
 
