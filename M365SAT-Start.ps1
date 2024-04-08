@@ -67,11 +67,10 @@ $message = "Choose the subscription you want to scan"
 $choice = Read-Host $message
 $choice = [int]$choice  
 
-$subId = Get-AzSubscription -SubscriptionName $choices[$choice] | Select-Object id
 Write-Host "You selected: $($choices[$choice])" -f Green
 
 #SET SUBSCRIPTION
-Set-AzContext -Subscription $subId.id
+Update-AzConfig -DefaultSubscriptionForLogin $choices[$choice]
 
 .\M365SATTester.ps1 $outPath $UserPrincipalName
 
