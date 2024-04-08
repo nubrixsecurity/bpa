@@ -70,7 +70,7 @@ $choice = [int]$choice
 Write-Host "You selected: $($choices[$choice])" -f Green
 
 #SET SUBSCRIPTION
-Update-AzConfig -DefaultSubscriptionForLogin $choices[$choice]
+Update-AzConfig -DefaultSubscriptionForLogin $choices[$choice] -WarningAction Ignore
 
 .\M365SATTester.ps1 $outPath $UserPrincipalName
 
