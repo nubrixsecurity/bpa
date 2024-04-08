@@ -71,7 +71,7 @@ $subId = Get-AzSubscription -SubscriptionName $choices[$choice] | Select-Object 
 Write-Host "You selected: $($choices[$choice])" -f Green
 
 #SET SUBSCRIPTION
-Set-AzContext -Subscription $subId
+Set-AzContext -Subscription $subId.id
 
 .\M365SATTester.ps1 $outPath $UserPrincipalName
 
