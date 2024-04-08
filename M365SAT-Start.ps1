@@ -44,7 +44,7 @@ Write-Host '---- RUNNING M365SAT ASSESSMENT ----' -f CYAN
 $UserPrincipalName = $(Write-Host "Input User Name: " -f yellow -NoNewLine; Read-Host)
 $credential = Get-Credential -Credential $UserPrincipalName
 
-Connect-AzAccount -Credential $credential -WarningAction Ignore
+Connect-AzAccount -Credential $credential -WarningAction Ignore -InformationAction Ignore
 
 $subs = Get-AzSubscription | Select-Object name
 
