@@ -1,6 +1,4 @@
-param ($outPath)
-
-$UserPrincipalName = $(Write-Host "Input User Name: " -f yellow -NoNewLine; Read-Host)
+param ($outPath,$UserPrincipalName)
 
 function ExecuteM365SAT
 {
