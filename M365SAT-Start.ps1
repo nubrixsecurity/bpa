@@ -1,5 +1,5 @@
 param($tenantId,$outPath)
-
+<#
 #CHECK IF MODULES EXISTS
 Write-Host '---- CHECKING MODULES ----' -f CYAN
 
@@ -37,7 +37,7 @@ foreach($m in $Modules){
 		}
 	}
 }
-
+#>
 #M365SAT ASSESSMENT
 Write-Host '---- RUNNING M365SAT ASSESSMENT ----' -f CYAN
 
