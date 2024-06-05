@@ -1,4 +1,4 @@
-param($outPath)
+param($tenantId,$outPath)
 
 #CHECK IF MODULES EXISTS
 Write-Host '---- CHECKING MODULES ----' -f CYAN
@@ -44,7 +44,7 @@ Write-Host '---- RUNNING M365SAT ASSESSMENT ----' -f CYAN
 $UserPrincipalName = $(Write-Host "Input User Name: " -f yellow -NoNewLine; Read-Host)
 $credential = Get-Credential -Credential $UserPrincipalName
 
-Connect-AzAccount -Credential $credential -WarningAction Ignore -InformationAction Ignore
+Connect-AzAccount -TenantId $tenantId -Credential $credential -WarningAction Ignore -InformationAction Ignore
 
 $subs = Get-AzSubscription | Select-Object name
 
