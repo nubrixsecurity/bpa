@@ -14,6 +14,7 @@ else{write-host "Git already installed" -Foreground green}
 
 #INPUT VARIABLES
 $inputOrg = $(Write-Host "Input Organization Name: " -f yellow -NoNewLine; Read-Host)
+$tenantId = $(Write-Host "Input Tenant Id: " -f yellow -NoNewLine; Read-Host)
 
 #CREATE DIRECTORY FOLDERS
 $path = 'C:\BPA'
@@ -105,4 +106,4 @@ $copyFile = $clonePathC1+'M365SATTester.ps1'
 Copy-Item $copyFile -Destination $clonePathM365SAT
 
 cd $clonePathM365SAT
-.\M365SATTester.ps1 $outPath
+.\M365SAT-Start.ps1 $tenantId $outPath
