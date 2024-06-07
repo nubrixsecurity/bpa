@@ -3,7 +3,7 @@ param ($outPath,$userPrincipalName)
 function ExecuteM365SAT
 {
 	Import-Module .\M365SAT.psd1
-	Get-M365SATReport -OutPath $outPath -SkipChecks -Username $userPrincipalName -reportType "HTML" -AllowLogging "Warning"
+	Get-M365SATReport -OutPath $outPath -SkipChecks -Username $userPrincipalName -reportType "HTML" -AllowLogging "Warning" -Module All
 	Remove-Module M365SAT
 }
 
