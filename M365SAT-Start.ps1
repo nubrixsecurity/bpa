@@ -1,8 +1,18 @@
-param($tenantId,$outPath)
-<#
-#CHECK IF MODULES EXISTS
+param ($outPath,$userPrincipalName)
+
+$ErrorActionPreference = 'silentlycontinue'
+
 Write-Host '---- CHECKING MODULES ----' -f CYAN
 
+#INSTALL GIT WINGET
+$gitInstalled = git --version
+if($gitInstalled -eq $null){
+    write-host "Installing Git" -Foreground yellow
+    winget install --id Git.Git -e --source winget
+}
+else{write-host "Module already installed: Git" -Foreground green}
+
+#CHECK IF MODULES EXISTS
 $Modules = @('Az',`
 			 'ExchangeOnlineManagement',`
 			 'Microsoft.Online.SharePoint.PowerShell',`
@@ -12,8 +22,8 @@ $Modules = @('Az',`
 
 foreach($m in $Modules){
 	if($m -eq 'Az'){
-		$name = 'Az.*'
-		$module = Get-Module -ListAvailable | where-Object {($_.Name -like $name) -or ($_.Name -eq $m)} | select name
+		$name = 'Az*'
+		$module = Get-Module -ListAvailable | where-Object {$_.Name -like $name} | select name
 			
 		if($module.name -ne $null){
 			write-host "Module already installed: $m" -Foreground green
@@ -37,14 +47,16 @@ foreach($m in $Modules){
 		}
 	}
 }
-#>
+
+$ErrorActionPreference = 'stop'
+
 #M365SAT ASSESSMENT
 Write-Host '---- RUNNING M365SAT ASSESSMENT ----' -f CYAN
 
-$UserPrincipalName = $(Write-Host "Input User Name: " -f yellow -NoNewLine; Read-Host)
-$credential = Get-Credential -Credential $UserPrincipalName
-
-Connect-AzAccount -TenantId $tenantId -Credential $credential -WarningAction Ignore -InformationAction Ignore
+<#
+Connect-MgGraph
+$tenantId = (Get-MgContext).TenantId
+$userPrincipalName = (Get-MgContext).account
 
 $subs = Get-AzSubscription | Select-Object name
 
@@ -71,13 +83,16 @@ Write-Host "You selected: $($choices[$choice])" -f Green
 
 #SET SUBSCRIPTION
 Update-AzConfig -DefaultSubscriptionForLogin $choices[$choice] -WarningAction Ignore
+#>
 
-.\M365SATTester.ps1 $outPath $UserPrincipalName
+#RUN M365SAT
+Set-Location $clonePathM365SAT
+.\M365SATTester.ps1 $outPath $userPrincipalName
 
 #OPEN THE HTML REPORT
 $folder = Get-ChildItem -Path $outPath -Directory | Where-Object {$_.Name -match '\d+$'}
 $reportPath = $outPath+$folder
 $HTML = Get-ChildItem $reportPath -Filter "*.html"
 
-cd $reportPath
+Set-Location $reportPath
 Start-Process $HTML
