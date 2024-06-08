@@ -47,6 +47,12 @@ foreach ($file in $files) {
 }
 
 #COPY CUSTOM FILE TO NEW LOCATION
+$copyFile = $clonePathC1+'Get-M365SATChecks.ps1'
+Copy-Item $copyFile -Destination '$clonePathM365SAT\inspectors\'
+
+$copyFile = $clonePathC1+'M365SAT.psm1'
+Copy-Item $copyFile -Destination $clonePathM365SAT
+
 $copyFile = $clonePathC1+'M365SATTester.ps1'
 Copy-Item $copyFile -Destination $clonePathM365SAT
 
