@@ -1,8 +1,11 @@
-param ($outPath,$userPrincipalName)
+#Requires -Version 5.1
+#Requires -RunAsAdministrator
 
+param ($outPath,$userPrincipalName)
 function ExecuteM365SAT
 {
 	Import-Module .\M365SAT.psd1
+
 	Get-M365SATReport `
 		-OutPath $outPath `
 		-SkipChecks `
@@ -12,8 +15,10 @@ function ExecuteM365SAT
 		-Modules All -EnvironmentType ALL `
 		-BenchmarkVersion LATEST `
 		-LicenseMode All `
-		-LicenseLevel All
-		
+		-LicenseLevel E3 `
+		-EnvironmentType AZURE,M365 `
+		-LocalMode
+
 	Remove-Module M365SAT
 }
 
