@@ -8,16 +8,14 @@ function ExecuteM365SAT
 
 	Get-M365SATReport `
 		-OutPath $outPath `
-		-SkipChecks `
 		-Username $userPrincipalName `
 		-reportType "HTML" `
 		-AllowLogging "Warning" `
-		-Modules All -EnvironmentType ALL `
+		-Modules All `
 		-BenchmarkVersion LATEST `
 		-LicenseMode All `
 		-LicenseLevel All `
-  		-LocalMode `
-		-EnvironmentType AZURE
+		-EnvironmentType AZURE,M365
 		
 	Remove-Module M365SAT
 }
