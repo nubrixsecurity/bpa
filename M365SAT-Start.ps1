@@ -4,7 +4,7 @@ $ErrorActionPreference = 'silentlycontinue'
 
 Write-Host '---- CHECKING MODULES ----' -f CYAN
 
-#INSTALL GIT WINGET
+<#INSTALL GIT WINGET
 $gitInstalled = git --version
 if($gitInstalled -eq $null){
     write-host "Installing Git" -Foreground yellow
@@ -46,7 +46,7 @@ foreach($m in $Modules){
 			#Import-Module -Name $m 
 		}
 	}
-}
+}#>
 
 $ErrorActionPreference = 'stop'
 
