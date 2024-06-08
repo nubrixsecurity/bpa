@@ -24,7 +24,7 @@ function Get-M365SATLocalChecks($Directory, $EnvironmentType, $BenchmarkVersion,
 	[string]$AZUREFolder = "AZURE"
 	[string]$CUSTOMFolder = "CUSTOM"
 	[string]$E3Folder = "E3"
-	#[string]$E5Folder = "E5"
+	[string]$E5Folder = "E5"
 	[string]$L1Folder = "L1"
 	[string]$L2Folder = "L2"
 
