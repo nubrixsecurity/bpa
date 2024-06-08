@@ -19,8 +19,6 @@ $clonePathC1 = $mainPath+$gitHubPath+'\C1\'
 $clonePathM365SAT = $mainPath+$gitHubPath+'\M365SAT\'
 $outPath = $mainPath+$orgName+'\Report\'
 
-Write-Host '---- CREATING DIRECTORY FOLDERS ----' -f CYAN
-
 if (Test-Path -Path $clonePathC1) {
 	Remove-Item $clonePathC1 -Recurse -Force
 	New-Item $clonePathC1 -Type Directory
