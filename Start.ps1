@@ -1,7 +1,10 @@
 #RUN SCRIPT ON POWERSHELL 5.1
 
 #INPUT VARIABLES
-$userPrincipalName = $(Write-Host "Enter User Name: " -f yellow -NoNewLine; Read-Host)
+#FIX CONNECT GRAPH ERROR
+Connect-MgGraph
+$userPrincipalName = (Get-MgContext).account
+#$userPrincipalName = $(Write-Host "Enter User Name: " -f yellow -NoNewLine; Read-Host)
 $fullDomain = ($userPrincipalName -split "@")[1]
 $inputOrg = ($fullDomain -split ".c")[0]
 
