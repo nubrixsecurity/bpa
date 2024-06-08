@@ -86,7 +86,6 @@ Update-AzConfig -DefaultSubscriptionForLogin $choices[$choice] -WarningAction Ig
 #>
 
 #RUN M365SAT
-Set-Location $clonePathM365SAT
 .\M365SATTester.ps1 $outPath $userPrincipalName
 
 #OPEN THE HTML REPORT
