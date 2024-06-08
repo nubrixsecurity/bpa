@@ -41,7 +41,6 @@ else {
 	git clone https://github.com/asterictnl-lvdw/M365SAT $clonePathM365SAT
 }
 
-
 #UNBLOCK FILES
 $files = Get-ChildItem $pathDate -Recurse -File
 
@@ -53,8 +52,14 @@ foreach ($file in $files) {
 $copyFile = $clonePathC1+'M365SATTester.ps1'
 Copy-Item $copyFile -Destination $clonePathM365SAT
 
-$copyFile = $clonePathC1+'M365SAT-Start.ps1'
-Copy-Item $copyFile -Destination $clonePathM365SAT
-
+#RUN M365SAT
 Set-Location $clonePathM365SAT
-.\M365SAT-Start.ps1 $outPath $userPrincipalName 
+.\M365SATTester.ps1 $outPath $userPrincipalName
+
+#OPEN THE HTML REPORT
+$folder = Get-ChildItem -Path $outPath -Directory | Where-Object {$_.Name -match '\d+$'}
+$reportPath = $outPath+$folder
+$HTML = Get-ChildItem $reportPath -Filter "*.html"
+
+Set-Location $reportPath
+Start-Process $HTML
