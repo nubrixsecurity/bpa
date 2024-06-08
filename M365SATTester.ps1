@@ -15,7 +15,7 @@ function ExecuteM365SAT
 		-Modules All -EnvironmentType ALL `
 		-BenchmarkVersion LATEST `
 		-LicenseMode All `
-		-LicenseLevel E3 `
+		-LicenseLevel All `
 		-EnvironmentType AZURE,M365 `
 		-LocalMode
 
