@@ -45,6 +45,7 @@ Connect-ExchangeOnline
 Connect-IPPSSession
 Connect-SPOService -Url $url
 Connect-MicrosoftTeams
+Connect-MgGraph
 
 function ExecuteM365SAT
 {
