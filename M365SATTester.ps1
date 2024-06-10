@@ -2,14 +2,19 @@
 #Requires -RunAsAdministrator
 
 param ($outPath)
-
+<#
 Connect-MgGraph
 $userPrincipalName = (Get-MgContext).account
 $tenantId = (Get-MgContext).TenantId
 $domain = (Get-MgSubscribedSku | select -First 1).accountname
 $url = 'https://'+$domain+'-admin.sharepoint.com'
+#>
+Connect-AzAccount
+$userPrincipalName = (Get-AzAccessToken).userid
+$fullDomain = (Get-AzTenant).DefaultDomain
+$domain = ($fullDomain -split ".c")[0]
+$url = 'https://'+$domain+'-admin.sharepoint.com'
 
-Connect-AzAccount -Tenant $tenantId
 $subs = Get-AzSubscription | Select-Object name
 
 # Enumerate items with numbers for selection
