@@ -1,13 +1,15 @@
 #Requires -Version 5.1
 #Requires -RunAsAdministrator
 
-param ($outPath,$userPrincipalName)
+Connect-MgGraph
+$userPrincipalName = (Get-MgContext).account
+
 function ExecuteM365SAT
 {
 	Import-Module .\M365SAT.psd1
 
 	Get-M365SATReport `
-		-OutPath $outPath `
+		-OutPath "C:\Output\" `
 		-Username $userPrincipalName `
 		-reportType "HTML" `
 		-AllowLogging "Warning" `
