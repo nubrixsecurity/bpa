@@ -40,13 +40,13 @@ Write-Host "You selected: $($choices[$choice])" -f Green
 
 #SET SUBSCRIPTION
 Update-AzConfig -DefaultSubscriptionForLogin $choices[$choice] -WarningAction Ignore
-
+<#
 Connect-MgGraph
 Connect-ExchangeOnline
 Connect-IPPSSession
 Connect-SPOService -Url $url
 Connect-MicrosoftTeams
-
+#>
 function ExecuteM365SAT
 {
 	Import-Module .\M365SAT.psd1
