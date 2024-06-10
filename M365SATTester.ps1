@@ -10,7 +10,33 @@ $domain = ($fullDomain -split ".c")[0]
 $url = 'https://'+$domain+'-admin.sharepoint.com'
 
 Connect-AzAccount
-Connect-ExchangeOnline -confirm:$false
+$subs = Get-AzSubscription | Select-Object name
+
+# Enumerate items with numbers for selection
+$choices = @{}
+$count = 0
+$num = 1
+
+foreach ($i in $subs){
+  $choices[$num] = $i.name
+  Write-Host "$num. $($choices[$num])"  # Display option with number and name
+  $count++
+  $num++
+
+}
+
+# Get user input and validate
+Write-Host ""
+$message = "Choose the subscription you want to scan"
+$choice = Read-Host $message
+$choice = [int]$choice  
+
+Write-Host "You selected: $($choices[$choice])" -f Green
+
+#SET SUBSCRIPTION
+Update-AzConfig -DefaultSubscriptionForLogin $choices[$choice] -WarningAction Ignore
+
+Connect-ExchangeOnline
 Connect-IPPSSession
 Connect-SPOService -Url 'https://edftradingna-admin.sharepoint.com'
 Connect-MicrosoftTeams
