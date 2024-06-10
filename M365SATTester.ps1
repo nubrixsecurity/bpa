@@ -6,6 +6,12 @@ param ($outPath)
 Connect-MgGraph
 $userPrincipalName = (Get-MgContext).account
 
+Connect-AzAccount
+Connect-ExchangeOnline -confirm:$false
+Connect-IPPSSession
+Connect-SPOService
+Connect-MicrosoftTeams
+
 function ExecuteM365SAT
 {
 	Import-Module .\M365SAT.psd1
