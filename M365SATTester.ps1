@@ -5,11 +5,14 @@ param ($outPath)
 
 Connect-MgGraph
 $userPrincipalName = (Get-MgContext).account
+$fullDomain = ($userPrincipalName -split "@")[1]
+$domain = ($fullDomain -split ".c")[0]
+$url = 'https://'+$domain+'-admin.sharepoint.com'
 
 Connect-AzAccount
 Connect-ExchangeOnline -confirm:$false
 Connect-IPPSSession
-Connect-SPOService
+Connect-SPOService -Url 'https://edftradingna-admin.sharepoint.com'
 Connect-MicrosoftTeams
 
 function ExecuteM365SAT
