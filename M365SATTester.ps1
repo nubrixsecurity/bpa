@@ -5,11 +5,13 @@ param ($outPath)
 
 Connect-MgGraph
 $userPrincipalName = (Get-MgContext).account
+$tenantId = (Get-MgContext).TenantId
+
 $fullDomain = ($userPrincipalName -split "@")[1]
 $domain = ($fullDomain -split ".c")[0]
 $url = 'https://'+$domain+'-admin.sharepoint.com'
 
-Connect-AzAccount
+Connect-AzAccount -Tenant $tenantId
 $subs = Get-AzSubscription | Select-Object name
 
 # Enumerate items with numbers for selection
@@ -38,7 +40,7 @@ Update-AzConfig -DefaultSubscriptionForLogin $choices[$choice] -WarningAction Ig
 
 Connect-ExchangeOnline
 Connect-IPPSSession
-Connect-SPOService -Url 'https://edftradingna-admin.sharepoint.com'
+Connect-SPOService -Url $url
 Connect-MicrosoftTeams
 
 function ExecuteM365SAT
