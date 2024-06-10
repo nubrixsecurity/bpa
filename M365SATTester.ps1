@@ -6,7 +6,7 @@ param ($outPath)
 Connect-MgGraph
 $userPrincipalName = (Get-MgContext).account
 $tenantId = (Get-MgContext).TenantId
-$domain = (Get-MgSubscribedSku | select -First 1 | select accountname).accountname
+$domain = (Get-MgSubscribedSku | select -First 1).accountname
 $url = 'https://'+$domain+'-admin.sharepoint.com'
 
 Connect-AzAccount -Tenant $tenantId
