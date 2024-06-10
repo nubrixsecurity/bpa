@@ -1,14 +1,14 @@
 #Requires -Version 5.1
 #Requires -RunAsAdministrator
 
-param ($outPath)
+param ($outPath,$userPrincipalName)
 <#
 Connect-MgGraph
 $userPrincipalName = (Get-MgContext).account
 $tenantId = (Get-MgContext).TenantId
 $domain = (Get-MgSubscribedSku | select -First 1).accountname
 $url = 'https://'+$domain+'-admin.sharepoint.com'
-#>
+
 Connect-AzAccount
 $userPrincipalName = (Get-AzAccessToken).userid
 $fullDomain = (Get-AzTenant).DefaultDomain
@@ -40,7 +40,7 @@ Write-Host "You selected: $($choices[$choice])" -f Green
 
 #SET SUBSCRIPTION
 Update-AzConfig -DefaultSubscriptionForLogin $choices[$choice] -WarningAction Ignore
-<#
+
 Connect-MgGraph
 Connect-ExchangeOnline
 Connect-IPPSSession
